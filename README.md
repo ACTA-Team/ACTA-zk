@@ -8,10 +8,6 @@ This directory groups the ZK proofs used in the repository. Each circuit is read
   - Private input: `age: u8`
   - Public output: `bool` → `age >= 18`
   - ACIR artifact: `target/noir_workshop.json`
-- `noir-valid-vc` — Valid credential of type X
-  - Private inputs: `type_hash: Field`, `expected_hash: Field`, `valid: Field`
-  - Public output: `bool` → `type_hash == expected_hash && valid == 1`
-  - ACIR artifact: `target/noir_valid_vc.json`
 - `noir-not-expired` — Not expired
   - Private inputs: `expiry_ts: u64`, `now_ts: u64`
   - Public output: `bool` → `expiry_ts > now_ts`
@@ -32,8 +28,6 @@ nargo check
 # Configure inputs (examples)
 # noir-acta
 printf 'age = 19\n' > Prover.toml
-# noir-valid-vc
-printf 'type_hash = "123"\nexpected_hash = "123"\nvalid = "1"\n' > Prover.toml
 # noir-not-expired
 printf 'expiry_ts = "1767225600000"\nnow_ts = "1731734400000"\n' > Prover.toml
 # noir-valid-status
@@ -57,8 +51,6 @@ nargo check
 # Configure inputs (examples)
 # noir-acta
 Set-Content -Path .\Prover.toml -Value "age = 19"
-# noir-valid-vc
-Set-Content -Path .\Prover.toml -Value "type_hash = \"123\"`nexpected_hash = \"123\"`nvalid = \"1\""
 # noir-not-expired
 Set-Content -Path .\Prover.toml -Value "expiry_ts = \"1767225600000\"`nnow_ts = \"1731734400000\""
 # noir-valid-status
@@ -74,7 +66,7 @@ bb verify -k .\target\vk -p .\target\proof -i .\target\public_inputs
 ## Publish to Web App
 
 - Copy ACIR JSON to `Web\ACTA-dApp\public\zk\` so the dApp can use them:
-  - `noir_workshop.json`, `noir_valid_vc.json`, `noir_not_expired.json`, `noir_valid_status.json`
+  - `noir_workshop.json`, `noir_not_expired.json`, `noir_valid_status.json`
 - The dApp loads them in `src\lib\zk.ts` and generates/verifies proofs with `@noir-lang/noir_js` + `@aztec/bb.js`.
 
 ## Cleanup (optional)
